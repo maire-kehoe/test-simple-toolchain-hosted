@@ -1,89 +1,62 @@
-version: '2'
-messages:
-  $i18n: locales.yml
+version: 2
 template:
-  name:
-    $ref: "#/messages/template.name"
-  description:
-    #original static description:
-    #$ref: "#/messages/template.description"
-    #template descriptions now vary depending on the flavor of source provider selected
-    $ref: >
-      $env.source_provider === 'githubconsolidated' ? 
-      '#/messages/template.description.github' : '#/messages/template.description'
-  header: '![](toolchain.svg?localize)'
-  icon: icon.svg
+  name: Develop a Cloud Foundry app
+  description: mk05-simple-toolchain-20191209142104709
   required:
-    - sample-build
-    - sample-repo
-  info:
-    #original static git url and branch string definitions
-    #git url: >-
-    #  [https://github.com/open-toolchain/simple-toolchain-hosted](https://github.com/open-toolchain/simple-toolchain-hosted)
-    #git branch: >-
-    #  [master](https://github.com/open-toolchain/simple-toolchain-hosted/tree/master)
-    
-    # compute the git url and branch values dynamically so that they remain correct when repo is forked etc. 
-    # note: `repository` url param must always be provided while the `branch` url param is optional
-    # the computed urls are of the same format as the original static urls shown above
-    git url: >
-        '[' + $env.repository + '](' + $env.repository + ')'
-    git branch: >
-        $env.branch ?
-          '[' + $env.branch + ']('+ $env.repository + '/tree/' + $env.branch + ')' :
-          '[master]('+ $env.repository + '/tree/master)'
+  - sample-repo
 toolchain:
-  name: >
-    $env.toolchainName ? '{{toolchainName}}' :
-      'simple-toolchain-{{timestamp}}'
-  template:
-    getting_started:
-      $ref: "#/messages/template.gettingStarted"
+  name: mk05-simple-toolchain-20191209142104709
 services:
   sample-repo:
-    service_id: >
-      $env.source_provider ? $env.source_provider : 'hostedgit'
     parameters:
-      repo_name: '{{toolchain.name}}'
-      repo_url: >
-        $env.type === 'link' ? $env.app_repo :
-          $env.sourceZipUrl ? '{{sourceZipUrl}}' :
-            'https://github.com/open-toolchain/node-hello-world'
-      source_repo_url: >
-        $env.type === 'fork' || $env.type === 'clone' ? $env.app_repo :
-          $env.sourceZipUrl ? '{{sourceZipUrl}}' : 'https://github.com/open-toolchain/node-hello-world'
-      type: $env.type || 'clone'
-      has_issues: true
+      api_root_url: https://github.dys0.bluemix.net/api
       enable_traceability: true
-  sample-build:
-    service_id: pipeline
+      extra_capabilities:
+      - capability_id: git.issues
+        display_name: Issues
+        dashboard_url: https://github.dys0.bluemix.net/IBMBluemix-MKEHOE-ie-ibm-com/mk05-simple-toolchain-20191209142104709/issues
+        label: mk05-simple-toolchain-20191209142104709
+        tags:
+        - think
+        - code
+        enabled: true
+      git_id: ghe
+      has_issues: true
+      label: mk05-simple-toolchain-20191209142104709
+      namespace_table: ""
+      owner_id: IBMBluemix-MKEHOE-ie-ibm-com
+      private_repo: false
+      repo_name: mk05-simple-toolchain-20191209142104709
+      repo_url: https://github.dys0.bluemix.net/IBMBluemix-MKEHOE-ie-ibm-com/mk05-simple-toolchain-20191209142104709.git
+      source_repo_url: https://github.com/open-toolchain/node-hello-world
+      token_url: https://otc-github-consolidated-broker.dys0.bluemix.net/github/token?git_id=ghe
+      type: link
+    service_id: github
+  webide:
     parameters:
-      services:
-        - sample-repo
-      name: '{{services.sample-repo.parameters.repo_name}}'
-      ui-pipeline: true
+      container_url: ""
+      dashboard_url: /devops/code/edit/edit.html#,toolchain=94a6d197-c336-439f-9f36-ae07bc35e1b2
+      toolchain_id: 94a6d197-c336-439f-9f36-ae07bc35e1b2
+    service_id: orion
+  pagerduty02:
+    parameters:
+      key_type: service
+      service_name: ""
+      user_email: ""
+      user_phone: ""
+      service_url: ""
+      service_key:
+    service_id: pagerduty
+  sample-build:
+    parameters:
+      api_url: https://devops-api.dys0.bluemix.net/v1/pipeline/pipelines/c62564e8-fe34-4a3c-a43e-d170663d3f3a
       configuration:
         content:
-          $text: pipeline.yml
-        env:
-          SAMPLE_REPO: sample-repo
-          CF_APP_NAME: '{{form.pipeline.parameters.prod-app-name}}'
-          PROD_SPACE_NAME: '{{form.pipeline.parameters.prod-space}}'
-          PROD_ORG_NAME: '{{form.pipeline.parameters.prod-organization}}'
-          PROD_REGION_ID: '{{form.pipeline.parameters.prod-region}}'
-          API_KEY: '{{form.pipeline.parameters.api-key}}'
-        execute: true
-  webide:
-    service_id: orion
-form:
-  pipeline:
-    parameters:
-      prod-app-name: >
-        $env.prodAppName ?
-          '{{prodAppName}}' : '{{services.sample-repo.parameters.repo_name}}'
-      prod-space: '{{prodSpace}}'
-      prod-organization: '{{prodOrganization}}'
-      prod-region: '{{prodRegion}}'
-      api-key: '{{apiKey}}'
-    schema:
-      $ref: deploy.json
+          $text: pipeline_sample-build.yml
+      label: mk05-simple-toolchain-20191209142104709
+      name: mk05-simple-toolchain-20191209142104709
+      ui-pipeline: true
+      ui_pipeline: true
+      services:
+      - sample-repo
+    service_id: pipeline
