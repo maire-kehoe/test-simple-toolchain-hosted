@@ -1,7 +1,6 @@
 services:
   sample-build:
     parameters:
-      api_url: https://devops-api.dys0.bluemix.net/v1/pipeline/pipelines/2a1dea65-100b-4b9d-b3c9-61b06c02c49a
       configuration:
         content:
           $text: pipeline_sample-build.yml
@@ -20,34 +19,14 @@ services:
     service_id: pipeline
   sample-repo:
     parameters:
-      api_root_url: https://github.dys0.bluemix.net/api
       enable_traceability: true
-      extra_capabilities:
-      - capability_id: git.issues
-        dashboard_url: https://github.dys0.bluemix.net/IBMBluemix-MKEHOE-ie-ibm-com/mk05-simple-toolchain-20191209142104709/issues
-        display_name: Issues
-        enabled: true
-        label: mk05-simple-toolchain-20191209142104709
-        tags:
-        - think
-        - code
-      git_id: ghe
       has_issues: true
-      label: mk05-simple-toolchain-20191209142104709
-      namespace_table: ""
-      owner_id: IBMBluemix-MKEHOE-ie-ibm-com
       private_repo: false
       repo_name: mk05-simple-toolchain-20191209142104709
-      repo_url: https://github.dys0.bluemix.net/IBMBluemix-MKEHOE-ie-ibm-com/mk05-simple-toolchain-20191209142104709.git
-      source_repo_url: https://github.com/open-toolchain/node-hello-world
-      token_url: https://otc-github-consolidated-broker.dys0.bluemix.net/github/token?git_id=ghe
+      repo_url: https://us-south.git.cloud.ibm.com/mkehoe/mk05-simple-toolchain-20191209142104709
       type: link
-    service_id: github
+    service_id: hostedgit
   webide:
-    parameters:
-      container_url: ""
-      dashboard_url: /devops/code/edit/edit.html#,toolchain=ebf0102e-beb4-4951-a87e-712bae993baa
-      toolchain_id: ebf0102e-beb4-4951-a87e-712bae993baa
     service_id: orion
 template:
   description: mk05-simple-toolchain-20191209142104709

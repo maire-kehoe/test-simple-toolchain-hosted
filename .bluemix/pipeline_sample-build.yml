@@ -30,9 +30,12 @@ stages:
       #cf logs "${CF_APP_NAME}" --recent
     target:
       application: mk05-simple-toolchain-20191209142104709
-      organization: mkehoe@ie.ibm.com
-      region_id: ibm:dys0:us-south
-      space: dev
+      organization: some-bad-org
+      # region_id: ibm:dys0:us-south
+      region_id: ibm:yp:us-south
+      space: some-bad-space
+      # needed to add:
+      api_key: some-bad-key
     type: deployer
   name: DEPLOY
   properties:
