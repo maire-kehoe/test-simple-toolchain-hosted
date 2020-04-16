@@ -1,25 +1,36 @@
-version: 2
-template:
-  name: Develop a Cloud Foundry app
-  description: mk05-simple-toolchain-20191209142104709
-  required:
-  - sample-repo
-toolchain:
-  name: mk05-simple-toolchain-20191209142104709
 services:
+  sample-build:
+    parameters:
+      api_url: https://devops-api.dys0.bluemix.net/v1/pipeline/pipelines/2a1dea65-100b-4b9d-b3c9-61b06c02c49a
+      configuration:
+        content:
+          $text: pipeline_sample-build.yml
+        env:
+          CF_APP_NAME: mk05-simple-toolchain-20191209142104709
+          PROD_ORG_NAME: mkehoe@ie.ibm.com
+          PROD_REGION_ID: ibm:dys0:us-south
+          PROD_SPACE_NAME: dev
+          SAMPLE_REPO: sample-repo
+      label: mk05-simple-toolchain-20191209142104709
+      name: mk05-simple-toolchain-20191209142104709
+      services:
+      - sample-repo
+      ui-pipeline: true
+      ui_pipeline: true
+    service_id: pipeline
   sample-repo:
     parameters:
       api_root_url: https://github.dys0.bluemix.net/api
       enable_traceability: true
       extra_capabilities:
       - capability_id: git.issues
-        display_name: Issues
         dashboard_url: https://github.dys0.bluemix.net/IBMBluemix-MKEHOE-ie-ibm-com/mk05-simple-toolchain-20191209142104709/issues
+        display_name: Issues
+        enabled: true
         label: mk05-simple-toolchain-20191209142104709
         tags:
         - think
         - code
-        enabled: true
       git_id: ghe
       has_issues: true
       label: mk05-simple-toolchain-20191209142104709
@@ -35,28 +46,14 @@ services:
   webide:
     parameters:
       container_url: ""
-      dashboard_url: /devops/code/edit/edit.html#,toolchain=94a6d197-c336-439f-9f36-ae07bc35e1b2
-      toolchain_id: 94a6d197-c336-439f-9f36-ae07bc35e1b2
+      dashboard_url: /devops/code/edit/edit.html#,toolchain=ebf0102e-beb4-4951-a87e-712bae993baa
+      toolchain_id: ebf0102e-beb4-4951-a87e-712bae993baa
     service_id: orion
-  pagerduty02:
-    parameters:
-      key_type: service
-      service_name: ""
-      user_email: ""
-      user_phone: ""
-      service_url: ""
-      service_key:
-    service_id: pagerduty
-  sample-build:
-    parameters:
-      api_url: https://devops-api.dys0.bluemix.net/v1/pipeline/pipelines/c62564e8-fe34-4a3c-a43e-d170663d3f3a
-      configuration:
-        content:
-          $text: pipeline_sample-build.yml
-      label: mk05-simple-toolchain-20191209142104709
-      name: mk05-simple-toolchain-20191209142104709
-      ui-pipeline: true
-      ui_pipeline: true
-      services:
-      - sample-repo
-    service_id: pipeline
+template:
+  description: mk05-simple-toolchain-20191209142104709
+  name: Develop a Cloud Foundry app
+  required:
+  - sample-repo
+toolchain:
+  name: mk05-simple-toolchain-20191209142104709
+version: 2
