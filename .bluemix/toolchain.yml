@@ -41,8 +41,7 @@ toolchain:
       $ref: "#/messages/template.gettingStarted"
 services:
   sample-repo:
-    service_id: >
-      $env.source_provider ? $env.source_provider : 'hostedgit'
+    service_id: github_integrated
     parameters:
       repo_name: '{{toolchain.name}}'
       repo_url: >
@@ -55,6 +54,8 @@ services:
       type: $env.type || 'clone'
       has_issues: true
       enable_traceability: true
+      # The "I understand" legal to true
+      legal: true
   sample-build:
     service_id: pipeline
     parameters:
